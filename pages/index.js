@@ -7,6 +7,7 @@ import {getAllProducts, reloadAllProducts} from "../lib/clientApp";
 
 import DeviceDetails from "../components/DeviceDetails";
 import DeviceCheck from "../components/DeviceCheck";
+import Footer from "../components/view/Footer";
 
 const device = reloadAllProducts()
 
@@ -196,6 +197,7 @@ export default function Home() {
                 <DeviceCheck user_device={selected} target_device={targetSelected}/>
             </div>
             <div>
+                <Footer/>
             </div>
         </div>)
 }

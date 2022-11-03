@@ -21,7 +21,7 @@ export default function Guideline() {
                     <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow"}>
                         Apple Guide
                     </h1>
-                    <p className={"mt-4 text-black text-xl font-bold"}>
+                    <p className={"mt-4 text-black text-xl font-medium"}>
                         Diese Applikation hilft, dabei einen allgemeinen Überblick über neue Apple Geräte zu behalten und hilft Ihnen dabei ein besseres Gerät zu finden und die richtige Entscheidung zu treffen, wenn sie dies fordern.
                     </p>
                 </div>

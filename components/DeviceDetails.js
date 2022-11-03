@@ -3,9 +3,7 @@ export default function DeviceDetails(deviceDetails) {
         <div className={"text-dark text-3xl"}>
             {deviceDetails.deviceDetails != null &&
                 <div>
-                    {deviceDetails.deviceDetails.id}
-                    <br/>
-                    {deviceDetails.deviceDetails.points} Punkte
+                    {deviceDetails.deviceDetails.points}<span className={"text-xl"}>/100 Punkten</span>
                 </div>
             }
         </div>

@@ -1,3 +1,5 @@
+import {ArrowTrendingDownIcon, ArrowsRightLeftIcon, ArrowTrendingUpIcon, HandThumbUpIcon, HandThumbDownIcon, NoSymbolIcon} from '@heroicons/react/24/solid'
+
 export default function DeviceCheck(data) {
 
     const Trade = {
@@ -10,8 +12,8 @@ export default function DeviceCheck(data) {
         NO: 'Dein Gerät ist fast gleich oder das Identische was du jetzt besitzt.',
         TARGET_IS_OLDER: "Dein altes Gerät ist neuer als dein ausgewähltes neues iPhone?"
     };
+
     function getResults() {
-        console.log(data)
         if (data != null && data.user_device != null && data.target_device != null) {
             const userDevicePoints = parseInt(data.user_device.points)
             const targetDevicePoints = parseInt(data.target_device.points)
@@ -39,10 +41,38 @@ export default function DeviceCheck(data) {
     }
 
     return (
-        <div className={"text-dark text-3xl xl:mt-12 mt-7"}>
-            {data &&
-                <div className={"w-80 mx-auto flex justify-center text-center"}>
-                    <p className={"break-word text-gray-700 leading-7"}>{getResults()}</p>
+        <div className={"text-dark text-2xl xl:mt-9 mt-7"}>
+            {data && data.user_device != null && data.target_device != null &&
+                <div>
+                     <span className={"mb-2"}>
+                         {getResults() === Trade.EXTRA_SMALL &&
+                             <ArrowTrendingDownIcon className={"h-16 text-red-500/80 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.SMALL &&
+                             <ArrowTrendingDownIcon className={"h-16 text-red-500/70 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.TARGET_IS_OLDER &&
+                             <NoSymbolIcon className={"h-16 text-red-600/80 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.GOOD &&
+                             <ArrowTrendingUpIcon className={"h-16 text-green-500/70 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.SUPER_GOOD &&
+                             <ArrowTrendingUpIcon className={"h-16 text-green-500/80 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.MIDDLE &&
+                             <ArrowsRightLeftIcon className={"h-16 text-yellow-500/90 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.EXTREM_GOOD &&
+                             <HandThumbUpIcon className={"h-16 text-green-600/80 mx-auto flex"}/>
+                         }
+                         {getResults() === Trade.NO &&
+                             <HandThumbDownIcon className={"h-16 text-red-600/80 mx-auto flex"}/>
+                         }
+                     </span>
+                    <div className={"w-80 pt-2 mx-auto flex justify-center text-center"}>
+                        <p className={"break-word text-gray-700 leading-7"}>{getResults()}</p>
+                    </div>
                 </div>
             }
         </div>

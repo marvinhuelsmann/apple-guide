@@ -21,11 +21,11 @@ export default function Guideline() {
                 </div>
                 <div>
                     <div className={"xl:mb-20 mb-16 flex justify-center w-full"}>
-                        <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow"}>
+                        <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow text-center"}>
                             Apple Guide
                         </h1>
                     </div>
-                    <div className={"container w-38"}>
+                    <div className={"container text-center w-38 pb-12"}>
                         <h2 className={"font-bold text-3xl"}>Informationen</h2>
                         <p className={"mt-1 text-black text-xl font-medium"}>
                             Diese Applikation hilft, dabei einen allgemeinen Überblick über neue Apple Geräte zu
@@ -40,7 +40,6 @@ export default function Guideline() {
                     </div>
                 </div>
             </div>
-            <Footer/>
         </div>
     )
 }

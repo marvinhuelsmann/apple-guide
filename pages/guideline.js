@@ -1,3 +1,5 @@
+import Footer from "../components/view/Footer";
+
 export default function Guideline() {
     return (
         <div>
@@ -17,15 +19,28 @@ export default function Guideline() {
                         className="absolute left-1/2 h-32 w-62 -translate-x-1/4 rounded-full bg-blue-200/40 blur-3xl"
                     ></div>
                 </div>
-                <div className={"xl:mb-20 mb-16 flex justify-center w-full"}>
-                    <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow"}>
-                        Apple Guide
-                    </h1>
-                    <p className={"mt-4 text-black text-xl font-medium"}>
-                        Diese Applikation hilft, dabei einen allgemeinen Überblick über neue Apple Geräte zu behalten und hilft Ihnen dabei ein besseres Gerät zu finden und die richtige Entscheidung zu treffen, wenn sie dies fordern.
-                    </p>
+                <div>
+                    <div className={"xl:mb-20 mb-16 flex justify-center w-full"}>
+                        <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow"}>
+                            Apple Guide
+                        </h1>
+                    </div>
+                    <div className={"container w-38"}>
+                        <h2 className={"font-bold text-3xl"}>Informationen</h2>
+                        <p className={"mt-1 text-black text-xl font-medium"}>
+                            Diese Applikation hilft, dabei einen allgemeinen Überblick über neue Apple Geräte zu
+                            behalten
+                            und hilft Ihnen dabei ein besseres Gerät zu finden und die richtige Entscheidung zu treffen,
+                            wenn sie dies fordern.
+                        </p>
+                        <h2 className={"font-bold text-3xl mt-12"}>Achtung</h2>
+                        <p className={"mt-1 text-black text-xl font-medium"}>
+                            AppleGuide steht in keinen zusammenhang mit Apple, daher ist diese Beratung nur von der Community und nicht von Apple selbst.
+                        </p>
+                    </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

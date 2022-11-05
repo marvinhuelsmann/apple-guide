@@ -448,10 +448,12 @@
     "protobufjs" "^7.0.0"
     "yargs" "^16.2.0"
 
-"@headlessui/react@^1.7.3":
-  "integrity" "sha512-LGp06SrGv7BMaIQlTs8s2G06moqkI0cb0b8stgq7KZ3xcHdH3qMP+cRyV7qe5x4XEW/IGY48BW4fLesD6NQLng=="
-  "resolved" "https://registry.npmjs.org/@headlessui/react/-/react-1.7.3.tgz"
-  "version" "1.7.3"
+"@headlessui/react@^1.7.4":
+  "integrity" "sha512-D8n5yGCF3WIkPsjEYeM8knn9jQ70bigGGb5aUvN6y4BGxcT3OcOQOKcM3zRGllRCZCFxCZyQvYJF6ZE7bQUOyQ=="
+  "resolved" "https://registry.npmjs.org/@headlessui/react/-/react-1.7.4.tgz"
+  "version" "1.7.4"
+  dependencies:
+    "client-only" "^0.0.1"
 
 "@heroicons/react@^2.0.13":
   "integrity" "sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ=="
@@ -913,7 +915,7 @@
   optionalDependencies:
     "fsevents" "~2.3.2"
 
-"client-only@0.0.1":
+"client-only@^0.0.1", "client-only@0.0.1":
   "integrity" "sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA=="
   "resolved" "https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz"
   "version" "0.0.1"
@@ -1442,10 +1444,10 @@
   "resolved" "https://registry.npmjs.org/fraction.js/-/fraction.js-4.2.0.tgz"
   "version" "4.2.0"
 
-"framer-motion@^7.6.1":
-  "integrity" "sha512-8US03IWJKrLoSb81l5OahNzB9Sv7Jo1RhIwUoTG/25BRUdO9lOqq/klsdZqNmNG0ua9IEJJQ8hkYpETJ4N6VSw=="
-  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-7.6.1.tgz"
-  "version" "7.6.1"
+"framer-motion@^7.6.4":
+  "integrity" "sha512-Ac3Bl9M45fS8A0ibOUnYMSCfjaCrFfWT0uh0/MZVm/DGWcr5IsRRinWRiVGABA9RGJgn4THehqcn235JVQkucQ=="
+  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-7.6.4.tgz"
+  "version" "7.6.4"
   dependencies:
     "@motionone/dom" "10.13.1"
     "framesync" "6.1.2"

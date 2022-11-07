@@ -12,6 +12,8 @@
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "firebase": "^9.12.1",
+    "flowbite": "^1.5.3",
+    "flowbite-react": "^0.3.4",
     "framer-motion": "^7.6.4",
     "heroicons": "^2.0.13",
     "next": "^13.0.0",

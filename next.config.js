@@ -5,7 +5,7 @@ const nextConfig = {
     APIKEY: process.env.APIKEY,
     AUTHDOMAIN: process.env.AUTHDOMAIN,
     PROJECTID: process.env.PROJECTID,
-  },
+  }
 }
 
 module.exports = nextConfig

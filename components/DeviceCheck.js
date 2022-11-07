@@ -8,6 +8,8 @@ import {
 } from '@heroicons/react/24/solid'
 import {Fragment, useState} from 'react'
 import {Dialog, Transition} from '@headlessui/react'
+import {Tooltip} from "flowbite-react";
+import {Toast} from "next/dist/client/components/react-dev-overlay/internal/components/Toast";
 
 export default function DeviceCheck(data) {
     let [isOpen, setIsOpen] = useState(false)
@@ -78,32 +80,29 @@ export default function DeviceCheck(data) {
             <div className={"text-dark text-2xl xl:mt-9 mt-7"}>
                 {data && data.user_device != null && data.target_device != null &&
                     <div>
-                     <span onClick={openModal} className={"mb-2"}>
+                     <span onClick={openModal} className={"mb-2 hover:cursor-pointer"}>
                          {getResults() === Trade.EXTRA_SMALL &&
-                             <ArrowTrendingDownIcon className={"h-24 text-red-500/80 mx-auto flex"}/>
+                             <ArrowTrendingDownIcon className={"h-32 text-red-500/80 mx-auto flex"}/>
                          }
                          {getResults() === Trade.SMALL &&
-                             <ArrowTrendingDownIcon className={"h-24 text-red-500/70 mx-auto flex"}/>
+                             <ArrowTrendingDownIcon className={"h-32 text-red-500/70 mx-auto flex"}/>
                          }
                          {getResults() === Trade.GOOD &&
-                             <ArrowTrendingUpIcon className={"h-24 text-green-500/70 mx-auto flex"}/>
+                             <ArrowTrendingUpIcon className={"h-32 text-green-500/70 mx-auto flex"}/>
                          }
                          {getResults() === Trade.SUPER_GOOD &&
-                             <ArrowTrendingUpIcon className={"h-24 text-green-500/80 mx-auto flex"}/>
+                             <ArrowTrendingUpIcon className={"h-32 text-green-500/80 mx-auto flex"}/>
                          }
                          {getResults() === Trade.MIDDLE &&
-                             <ArrowsRightLeftIcon className={"h-24 text-yellow-500/90 mx-auto flex"}/>
+                             <ArrowsRightLeftIcon className={"h-32 text-yellow-500/90 mx-auto flex"}/>
                          }
                          {getResults() === Trade.EXTREM_GOOD &&
-                             <HandThumbUpIcon className={"h-24 text-green-600/80 mx-auto flex"}/>
+                             <HandThumbUpIcon className={"h-32 text-green-600/80 mx-auto flex"}/>
                          }
                          {getResults() === Trade.NO &&
-                             <HandThumbDownIcon className={"h-24 text-red-600/80 mx-auto flex"}/>
+                             <HandThumbDownIcon className={"h-32 text-red-600/80 mx-auto flex"}/>
                          }
                      </span>
-                        <div className={"w-80 pt-3 mx-auto xl:flex md:flex hidden justify-center text-center"}>
-                            <p className={"break-word text-gray-700 leading-7 text-xl"}>{getResults()}</p>
-                        </div>
                     </div>
                 }
             </div>
@@ -131,8 +130,8 @@ export default function DeviceCheck(data) {
                             className="inline-block h-screen align-middle"
                             aria-hidden="true"
                         >
-              &#8203;
-            </span>
+                    &#8203;
+                    </span>
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"

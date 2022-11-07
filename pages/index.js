@@ -2,12 +2,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 import {Fragment, useState} from 'react'
 import {Combobox, Transition} from '@headlessui/react'
+import {motion} from "framer-motion";
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 import {getAllProducts, reloadAllProducts} from "../lib/clientApp";
 
 import DeviceDetails from "../components/DeviceDetails";
 import DeviceCheck from "../components/DeviceCheck";
 import Footer from "../components/view/Footer";
+import FooterView from "../components/view/Footer";
 
 const device = reloadAllProducts()
 
@@ -47,7 +49,7 @@ export default function Home() {
 
             <div className={"justify-center text-center xl:mt-48 mt-40"}>
                 <div
-                    className="absolute inset-0 z-[-9999] bg-gradient-to-tr from-bg-purple/10 via-bg-blue-300/40 to-bg-purple-300/50"
+                    className="absolute inset-0 z-[-9999] bg-gradient-to-tr from-bg-blue/10 via-bg-blue-300/40 to-bg-blue-300/50"
                 >
                     <div
                         className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-blue-300/70 to-transparent"
@@ -62,7 +64,7 @@ export default function Home() {
                     ></div>
                 </div>
                 <div className={"xl:mb-20 mb-16"}>
-                    <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow"}>
+                    <h1 className={"text-8xl xl:-mt-14 md:-mt-24 -mt-28 font-bold text-blue-900/70 text-shadow"}>
                         Apple Guide
                     </h1>
                 </div>
@@ -131,7 +133,8 @@ export default function Home() {
                     </div>
                     <div className={"xl:hidden md:hidden block"}>
                         {query === '' &&
-                            <div>
+                            <motion.div
+                                transition={{ease: "easeIn", duration: 2}}>
                                 <div
                                     className={"text-left justifiy-center xl:flex md:flex hidden mx-auto xl:mt-0 md:mt-0 -mt-5"}>
                                     <div className="flex mx-auto justify-center">
@@ -198,7 +201,7 @@ export default function Home() {
                                     </div>
                                 </div>
                                 <div
-                                    className={"text-left justifiy-center xl:hidden md:hidden flex mx-auto xl:mt-0 md:mt-0 -mt-5"}>
+                                    className={"text-left justifiy-center xl:hidden md:hidden flex mx-auto xl:mt-0 md:mt-0 -mt-4"}>
                                     {selected != null &&
                                         <div className="flex mx-auto justify-center">
                                             <Combobox value={targetSelected} onChange={setTargetSelected}>
@@ -264,7 +267,7 @@ export default function Home() {
                                         </div>
                                     }
                                 </div>
-                            </div>
+                            </motion.div>
                         }
                     </div>
                     <div className={"xl:block md:block hidden"}>
@@ -406,8 +409,10 @@ export default function Home() {
                 </div>
                 <DeviceCheck user_device={selected} target_device={targetSelected}/>
             </div>
-            <div>
-                <Footer/>
-            </div>
+            {selected != null && targetSelected != null &&
+                <div className={"xl:mt-24 md:mt-24 mt-7 transition transform"}>
+                    <Footer/>
+                </div>
+            }
         </div>)
 }

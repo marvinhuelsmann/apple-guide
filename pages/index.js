@@ -1,418 +1,138 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import {Fragment, useState} from 'react'
-import {Combobox, Transition} from '@headlessui/react'
-import {motion} from "framer-motion";
-import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
-import {getAllProducts, reloadAllProducts} from "../lib/clientApp";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useMemo, useState } from "react";
+import * as m from "motion/react-m";
+import Ambient from "../components/Ambient";
+import Nav from "../components/Nav";
+import DevicePicker from "../components/DevicePicker";
+import DeviceStage from "../components/DeviceStage";
+import Verdict from "../components/Verdict";
+import CompareTable from "../components/CompareTable";
+import TipCard from "../components/TipCard";
+import Footer from "../components/Footer";
+import { CATEGORIES, DEFAULT_PAIR, DEVICES, deviceById } from "../lib/devices";
+import { compare } from "../lib/compare";
+import { applyOverrides, usePointsOverride } from "../lib/clientApp";
 
-import DeviceDetails from "../components/DeviceDetails";
-import DeviceCheck from "../components/DeviceCheck";
-import Footer from "../components/view/Footer";
-import FooterView from "../components/view/Footer";
+const TITLE = "Apple Guide – Lohnt sich der Wechsel?";
+const DESCRIPTION = "Vergleiche iPhone, iPad, Mac, Apple Watch, AirPods, HomePod und Apple TV: Wähle dein Gerät und dein Wunschgerät und sieh sofort, was sich wirklich ändert.";
 
-const device = reloadAllProducts()
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } };
+const rise = { hidden: { opacity: 0, y: 18, filter: "blur(6px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 220, damping: 28 } } };
 
+function initialSelection(query) {
+  const { c, a, b } = query;
+  const da = deviceById(a), db = deviceById(b);
+  if (da && db && da.category === db.category) return { category: da.category, aId: da.id, bId: db.id };
+  const cat = CATEGORIES.some((x) => x.id === c) ? c : "iphone";
+  return { category: cat, aId: DEFAULT_PAIR[cat][0], bId: DEFAULT_PAIR[cat][1] };
+}
+
+// Die Auswahl kommt aus der URL (?c=iphone&a=iphone-13&b=iphone-17-pro). Sobald der Router bereit ist,
+// wird der Vergleich mit dieser Auswahl neu aufgesetzt, ohne Effekte und ohne Flackern.
 export default function Home() {
-    const [selected, setSelected] = useState(device[0])
-    const [query, setQuery] = useState('')
+  const router = useRouter();
+  return <Comparer key={router.isReady ? "ready" : "init"} router={router} initial={initialSelection(router.isReady ? router.query : {})} />;
+}
 
-    const [targetSelected, setTargetSelected] = useState(device[0])
-    const [targetQuery, setTargetQuery] = useState('')
+function Comparer({ router, initial }) {
+  const overrides = usePointsOverride();
+  const all = useMemo(() => applyOverrides(DEVICES, overrides), [overrides]);
 
-    const filteredDevice = query === '' ? device : device.filter((type) => type.name
-        .toLowerCase()
-        .replace(/\s+/g, '')
-        .includes(query.toLowerCase().replace(/\s+/g, '')))
+  const [category, setCategory] = useState(initial.category);
+  const [aId, setAId] = useState(initial.aId);
+  const [bId, setBId] = useState(initial.bId);
 
-    const filteredTargetDevice = targetQuery === '' ? device : device.filter((type) => type.name
-        .toLowerCase()
-        .replace(/\s+/g, '')
-        .includes(targetQuery.toLowerCase().replace(/\s+/g, '')))
+  const syncUrl = useCallback(
+    (c, a, b) => {
+      router.replace({ pathname: "/", query: { c, a, b } }, undefined, { shallow: true, scroll: false });
+    },
+    [router]
+  );
 
-    function getDeviceName(device) {
-        if (device != null) {
-            return device.name
-        } else {
-            return ""
-        }
-    }
+  const devices = useMemo(() => all.filter((d) => d.category === category), [all, category]);
+  const a = devices.find((d) => d.id === aId) || devices[0];
+  const b = devices.find((d) => d.id === bId) || devices[1];
+  const result = useMemo(() => compare(a, b), [a, b]);
+  const noun = CATEGORIES.find((c) => c.id === category)?.noun || "Gerät";
 
-    return (
-        <div>
-            <Head>
-                <title>Apple Guide</title>
-                <meta name="description" content="Super fast image transporter"/>
-                <link rel="icon" href="https://i.imgur.com/rHW4Mgp.png"/>
-                <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
-            </Head>
+  function changeCategory(c) {
+    if (c === category) return;
+    const [na, nb] = DEFAULT_PAIR[c];
+    setCategory(c);
+    setAId(na);
+    setBId(nb);
+    syncUrl(c, na, nb);
+  }
+  function pickA(d) {
+    setAId(d.id);
+    syncUrl(category, d.id, bId);
+  }
+  function pickB(d) {
+    setBId(d.id);
+    syncUrl(category, aId, d.id);
+  }
+  function swap() {
+    setAId(bId);
+    setBId(aId);
+    syncUrl(category, bId, aId);
+  }
 
-            <div className={"justify-center text-center xl:mt-48 mt-40"}>
-                <div
-                    className="absolute inset-0 z-[-9999] bg-gradient-to-tr from-bg-blue/10 via-bg-blue-300/40 to-bg-blue-300/50"
-                >
-                    <div
-                        className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-blue-300/70 to-transparent"
-                    ></div>
-                </div>
-                <div className="relative max-w-sm hidden ml:block xl:block">
-                    <div
-                        className="-translate-x-1/2vite absolute -top-70 left-1/4 h-24 w-40 rounded-full bg-blue-300 blur-3xl"
-                    ></div>
-                    <div
-                        className="absolute left-1/2 h-32 w-62 -translate-x-1/4 rounded-full bg-blue-200/40 blur-3xl"
-                    ></div>
-                </div>
-                <div className={"xl:mb-20 mb-16"}>
-                    <h1 className={"text-8xl xl:-mt-14 md:-mt-24 -mt-28 font-bold text-blue-900/70 text-shadow"}>
-                        Apple Guide
-                    </h1>
-                </div>
-                <div className={"xl:grid md:grid xl:grid-cols-2 md:grid-cols-2 grid-cols-1 justify-center mx-auto"}>
-                    <div className={"text-left justifiy-center flex mx-auto"}>
-                        <div className="flex mx-auto justify-center">
-                            <Combobox value={selected} onChange={setSelected}>
-                                <div className="relative mt-1">
-                                    <div
-                                        className="relative text-2xl font-medium font-medium w-full cursor-default overflow-hidden rounded-lg text-left text-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                                        <Combobox.Input
-                                            autoFocus={true}
-                                            placeholder={"Gerät auswählen..."}
-                                            className="autofocus w-full xl:text-5xl md:text-5xl text-4xl py-2 pl-5 pr-10 leading-5 bg-transparent place-holder-blue-400 text-center border w-full border-transparent focus:outline-none text-black font-bold placeholder:font-medium rounded-lg focus:ring-transparent focus:border-transparent block"
-                                            displayValue={(type) => getDeviceName(type)}
-                                            onChange={(event) => setQuery(event.target.value)}
-                                        />
-                                        {query !== '' &&
-                                            <Combobox.Button
-                                                className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                <ChevronUpDownIcon
-                                                    className="h-5 w-5 text-gray-400"
-                                                    aria-hidden="true"
-                                                />
-                                            </Combobox.Button>
-                                        }
-                                    </div>
-                                    {query !== '' &&
-                                        <Transition
-                                            as={Fragment}
-                                            leave="transition ease-in duration-100"
-                                            leaveFrom="opacity-100"
-                                            leaveTo="opacity-0"
-                                            afterLeave={() => setQuery('')}
-                                        >
-                                            <Combobox.Options
-                                                className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                {filteredDevice.length === 0 && query !== '' ? (
-                                                    <div
-                                                        className="relative cursor-default select-none py-2 text-xl px-4 text-gray-700">
-                                                        Kein <span className={"font-bold"}>Gerät</span> gefunden.
-                                                    </div>) : (filteredDevice.map((type) => (<Combobox.Option
-                                                    key={type.id}
-                                                    className={({active}) => `relative text-xl cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-black text-white font-bold' : 'text-gray-900'}`}
-                                                    value={type}
-                                                >
-                                                    {({selected, active}) => (<>
-                                <span
-                                    className={`block truncate flex mx-auto ${selected ? 'font-medium' : 'font-normal'}`}
-                                >
-                                    {type.name}
-                                </span>
+  return (
+    <>
+      <Head>
+        <title>{TITLE}</title>
+        <meta name="description" content={DESCRIPTION} />
+        <meta property="og:title" content={TITLE} />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </Head>
+      <Ambient />
+      <Nav category={category} onCategory={changeCategory} />
 
-                                                        {selected ? (<span
-                                                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-teal-600'}`}>
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                </span>) : null}
-                                                    </>)}
-                                                </Combobox.Option>)))}
-                                            </Combobox.Options>
-                                        </Transition>
-                                    }
-                                </div>
-                            </Combobox>
-                        </div>
-                    </div>
-                    <div className={"xl:hidden md:hidden block"}>
-                        {query === '' &&
-                            <motion.div
-                                transition={{ease: "easeIn", duration: 2}}>
-                                <div
-                                    className={"text-left justifiy-center xl:flex md:flex hidden mx-auto xl:mt-0 md:mt-0 -mt-5"}>
-                                    <div className="flex mx-auto justify-center">
-                                        <Combobox value={targetSelected} onChange={setTargetSelected}>
-                                            <div className="relative mt-1">
-                                                <div
-                                                    className="relative text-2xl font-medium font-medium w-full cursor-default overflow-hidden rounded-lg text-left text-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                                                    <Combobox.Input
-                                                        autoFocus={true}
-                                                        placeholder={"Gerät auswählen..."}
-                                                        className="autofocus w-full py-2 pl-5 pr-10 xl:text-5xl md:text-5xl text-4xl leading-5 bg-transparent place-holder-blue-400 text-center border w-full border-transparent focus:outline-none text-black font-bold placeholder:font-medium rounded-lg focus:ring-transparent focus:border-transparent block"
-                                                        displayValue={(type) => getDeviceName(type)}
-                                                        onChange={(event) => setTargetQuery(event.target.value)}
-                                                    />
-                                                    {targetQuery !== '' &&
-                                                        <Combobox.Button
-                                                            className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                            <ChevronUpDownIcon
-                                                                className="h-5 w-5 text-gray-400"
-                                                                aria-hidden="true"
-                                                            />
-                                                        </Combobox.Button>
-                                                    }
-                                                </div>
-                                                {targetQuery !== '' &&
-                                                    <Transition
-                                                        as={Fragment}
-                                                        leave="transition ease-in duration-100"
-                                                        leaveFrom="opacity-100"
-                                                        leaveTo="opacity-0"
-                                                        afterLeave={() => setTargetQuery('')}
-                                                    >
-                                                        <Combobox.Options
-                                                            className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                            {filteredTargetDevice.length === 0 && targetQuery !== '' ? (
-                                                                <div
-                                                                    className="relative cursor-default select-none py-2 text-xl px-4 text-gray-700">
-                                                                    Kein <span
-                                                                    className={"font-bold"}>Gerät</span> gefunden.
-                                                                </div>) : (filteredTargetDevice.map((type) => (
-                                                                <Combobox.Option
-                                                                    key={type.id}
-                                                                    className={({active}) => `relative text-xl cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-black text-white font-bold' : 'text-gray-900'}`}
-                                                                    value={type}
-                                                                >
-                                                                    {({targetSelected, active}) => (<>
-                                <span
-                                    className={`block truncate flex mx-auto ${targetSelected ? 'font-medium' : 'font-normal'}`}
-                                >
-                                    {type.name}
-                                </span>
+      <main className="mx-auto max-w-6xl px-4 pb-16 pt-[148px] sm:px-6 lg:pt-32">
+        <m.section variants={stagger} initial="hidden" animate="show" className="text-center">
+          <m.h1 variants={rise} className="headline mx-auto max-w-[14ch] text-[clamp(40px,7.5vw,84px)] text-balance">
+            Lohnt sich der Wechsel?
+          </m.h1>
+          <m.p variants={rise} className="mx-auto mt-5 max-w-[52ch] text-[17px] leading-relaxed text-ink-2 sm:text-[19px] text-balance">
+            Wähle dein {noun} und das Modell, das du im Auge hast. Apple Guide zeigt dir sofort, was sich wirklich ändert.
+          </m.p>
+        </m.section>
 
-                                                                        {targetSelected ? (<span
-                                                                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-teal-600'}`}>
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                </span>) : null}
-                                                                    </>)}
-                                                                </Combobox.Option>)))}
-                                                        </Combobox.Options>
-                                                    </Transition>
-                                                }
-                                            </div>
-                                        </Combobox>
-                                    </div>
-                                </div>
-                                <div
-                                    className={"text-left justifiy-center xl:hidden md:hidden flex mx-auto xl:mt-0 md:mt-0 -mt-4"}>
-                                    {selected != null &&
-                                        <div className="flex mx-auto justify-center">
-                                            <Combobox value={targetSelected} onChange={setTargetSelected}>
-                                                <div className="relative mt-1">
-                                                    <div
-                                                        className="relative text-2xl font-medium font-medium w-full cursor-default overflow-hidden rounded-lg text-left text-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                                                        <Combobox.Input
-                                                            autoFocus={true}
-                                                            placeholder={"Gerät auswählen..."}
-                                                            className="autofocus w-full py-2 pl-5 pr-10 xl:text-5xl md:text-5xl text-4xl leading-5 bg-transparent place-holder-blue-400 text-center border w-full border-transparent focus:outline-none text-black font-bold placeholder:font-medium rounded-lg focus:ring-transparent focus:border-transparent block"
-                                                            displayValue={(type) => getDeviceName(type)}
-                                                            onChange={(event) => setTargetQuery(event.target.value)}
-                                                        />
-                                                        {targetQuery !== '' &&
-                                                            <Combobox.Button
-                                                                className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                                <ChevronUpDownIcon
-                                                                    className="h-5 w-5 text-gray-400"
-                                                                    aria-hidden="true"
-                                                                />
-                                                            </Combobox.Button>
-                                                        }
-                                                    </div>
-                                                    {targetQuery !== '' &&
-                                                        <Transition
-                                                            as={Fragment}
-                                                            leave="transition ease-in duration-100"
-                                                            leaveFrom="opacity-100"
-                                                            leaveTo="opacity-0"
-                                                            afterLeave={() => setTargetQuery('')}
-                                                        >
-                                                            <Combobox.Options
-                                                                className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                                {filteredTargetDevice.length === 0 && targetQuery !== '' ? (
-                                                                    <div
-                                                                        className="relative cursor-default select-none py-2 text-xl px-4 text-gray-700">
-                                                                        Kein <span
-                                                                        className={"font-bold"}>Gerät</span> gefunden.
-                                                                    </div>) : (filteredTargetDevice.map((type) => (
-                                                                    <Combobox.Option
-                                                                        key={type.id}
-                                                                        className={({active}) => `relative text-xl cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-black text-white font-bold' : 'text-gray-900'}`}
-                                                                        value={type}
-                                                                    >
-                                                                        {({targetSelected, active}) => (<>
-                                <span
-                                    className={`block truncate flex mx-auto ${targetSelected ? 'font-medium' : 'font-normal'}`}
-                                >
-                                    {type.name}
-                                </span>
+        <m.section variants={stagger} initial="hidden" animate="show" className="mt-10 sm:mt-14">
+          <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+            <m.div variants={rise} className="relative z-30">
+              <DevicePicker label="Mein Gerät" value={a} onChange={pickA} devices={devices} />
+            </m.div>
+            <m.div variants={rise} className="relative z-30">
+              <DevicePicker label="Mein Wunschgerät" value={b} onChange={pickB} devices={devices} align="right" />
+            </m.div>
+          </div>
 
-                                                                            {targetSelected ? (<span
-                                                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-teal-600'}`}>
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                </span>) : null}
-                                                                        </>)}
-                                                                    </Combobox.Option>)))}
-                                                            </Combobox.Options>
-                                                        </Transition>
-                                                    }
-                                                </div>
-                                            </Combobox>
-                                        </div>
-                                    }
-                                </div>
-                            </motion.div>
-                        }
-                    </div>
-                    <div className={"xl:block md:block hidden"}>
-                        <div
-                            className={"text-left justifiy-center xl:flex md:flex hidden mx-auto xl:mt-0 md:mt-0 -mt-5"}>
-                            <div className="flex mx-auto justify-center">
-                                <Combobox value={targetSelected} onChange={setTargetSelected}>
-                                    <div className="relative mt-1">
-                                        <div
-                                            className="relative text-2xl font-medium font-medium w-full cursor-default overflow-hidden rounded-lg text-left text-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                                            <Combobox.Input
-                                                autoFocus={true}
-                                                placeholder={"Gerät auswählen..."}
-                                                className="autofocus w-full py-2 pl-5 pr-10 xl:text-5xl md:text-5xl text-4xl leading-5 bg-transparent place-holder-blue-400 text-center border w-full border-transparent focus:outline-none text-black font-bold placeholder:font-medium rounded-lg focus:ring-transparent focus:border-transparent block"
-                                                displayValue={(type) => getDeviceName(type)}
-                                                onChange={(event) => setTargetQuery(event.target.value)}
-                                            />
-                                            {targetQuery !== '' &&
-                                                <Combobox.Button
-                                                    className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                    <ChevronUpDownIcon
-                                                        className="h-5 w-5 text-gray-400"
-                                                        aria-hidden="true"
-                                                    />
-                                                </Combobox.Button>
-                                            }
-                                        </div>
-                                        {targetQuery !== '' &&
-                                            <Transition
-                                                as={Fragment}
-                                                leave="transition ease-in duration-100"
-                                                leaveFrom="opacity-100"
-                                                leaveTo="opacity-0"
-                                                afterLeave={() => setTargetQuery('')}
-                                            >
-                                                <Combobox.Options
-                                                    className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                    {filteredTargetDevice.length === 0 && targetQuery !== '' ? (
-                                                        <div
-                                                            className="relative cursor-default select-none py-2 text-xl px-4 text-gray-700">
-                                                            Kein <span
-                                                            className={"font-bold"}>Gerät</span> gefunden.
-                                                        </div>) : (filteredTargetDevice.map((type) => (
-                                                        <Combobox.Option
-                                                            key={type.id}
-                                                            className={({active}) => `relative text-xl cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-black text-white font-bold' : 'text-gray-900'}`}
-                                                            value={type}
-                                                        >
-                                                            {({targetSelected, active}) => (<>
-                                <span
-                                    className={`block truncate flex mx-auto ${targetSelected ? 'font-medium' : 'font-normal'}`}
-                                >
-                                    {type.name}
-                                </span>
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-12 lg:grid-cols-[1fr_minmax(340px,420px)_1fr] lg:items-start lg:gap-8">
+            <m.div variants={rise} className="col-start-1 row-start-1 lg:col-start-auto lg:row-start-auto">
+              <DeviceStage device={a} side="a" priority />
+            </m.div>
+            <m.div variants={rise} className="col-span-2 row-start-2 lg:col-span-1 lg:row-start-auto lg:mt-6">
+              <Verdict result={result} a={a} b={b} onSwap={swap} />
+            </m.div>
+            <m.div variants={rise} className="col-start-2 row-start-1 lg:col-start-auto lg:row-start-auto">
+              <DeviceStage device={b} side="b" priority />
+            </m.div>
+          </div>
+        </m.section>
 
-                                                                {targetSelected ? (<span
-                                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-teal-600'}`}>
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                </span>) : null}
-                                                            </>)}
-                                                        </Combobox.Option>)))}
-                                                </Combobox.Options>
-                                            </Transition>
-                                        }
-                                    </div>
-                                </Combobox>
-                            </div>
-                        </div>
-                        <div
-                            className={"text-left justifiy-center xl:hidden md:hidden flex mx-auto xl:mt-0 md:mt-0 -mt-5"}>
-                            {selected != null &&
-                                <div className="flex mx-auto justify-center">
-                                    <Combobox value={targetSelected} onChange={setTargetSelected}>
-                                        <div className="relative mt-1">
-                                            <div
-                                                className="relative text-2xl font-medium font-medium w-full cursor-default overflow-hidden rounded-lg text-left text-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                                                <Combobox.Input
-                                                    autoFocus={true}
-                                                    placeholder={"Gerät auswählen..."}
-                                                    className="autofocus w-full py-2 pl-5 pr-10 xl:text-5xl md:text-5xl text-4xl leading-5 bg-transparent place-holder-blue-400 text-center border w-full border-transparent focus:outline-none text-black font-bold placeholder:font-medium rounded-lg focus:ring-transparent focus:border-transparent block"
-                                                    displayValue={(type) => getDeviceName(type)}
-                                                    onChange={(event) => setTargetQuery(event.target.value)}
-                                                />
-                                                {targetQuery !== '' &&
-                                                    <Combobox.Button
-                                                        className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                        <ChevronUpDownIcon
-                                                            className="h-5 w-5 text-gray-400"
-                                                            aria-hidden="true"
-                                                        />
-                                                    </Combobox.Button>
-                                                }
-                                            </div>
-                                            {targetQuery !== '' &&
-                                                <Transition
-                                                    as={Fragment}
-                                                    leave="transition ease-in duration-100"
-                                                    leaveFrom="opacity-100"
-                                                    leaveTo="opacity-0"
-                                                    afterLeave={() => setTargetQuery('')}
-                                                >
-                                                    <Combobox.Options
-                                                        className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                        {filteredTargetDevice.length === 0 && targetQuery !== '' ? (
-                                                            <div
-                                                                className="relative cursor-default select-none py-2 text-xl px-4 text-gray-700">
-                                                                Kein <span
-                                                                className={"font-bold"}>Gerät</span> gefunden.
-                                                            </div>) : (filteredTargetDevice.map((type) => (
-                                                            <Combobox.Option
-                                                                key={type.id}
-                                                                className={({active}) => `relative text-xl cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-black text-white font-bold' : 'text-gray-900'}`}
-                                                                value={type}
-                                                            >
-                                                                {({targetSelected, active}) => (<>
-                                <span
-                                    className={`block truncate flex mx-auto ${targetSelected ? 'font-medium' : 'font-normal'}`}
-                                >
-                                    {type.name}
-                                </span>
+        <div className="mt-20 sm:mt-28">
+          <CompareTable a={a} b={b} />
+        </div>
 
-                                                                    {targetSelected ? (<span
-                                                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-teal-600'}`}>
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                </span>) : null}
-                                                                </>)}
-                                                            </Combobox.Option>)))}
-                                                    </Combobox.Options>
-                                                </Transition>
-                                            }
-                                        </div>
-                                    </Combobox>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <DeviceDetails deviceDetails={selected}/>
-                    <DeviceDetails deviceDetails={targetSelected}/>
-                </div>
-                <DeviceCheck user_device={selected} target_device={targetSelected}/>
-            </div>
-            {selected != null && targetSelected != null &&
-                <div className={"xl:mt-24 md:mt-24 mt-7 transition transform"}>
-                    <Footer/>
-                </div>
-            }
-        </div>)
+        <div className="mt-16 sm:mt-24">
+          <TipCard />
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }

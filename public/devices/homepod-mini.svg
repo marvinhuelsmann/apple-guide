@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900" fill="none">
+  <defs>
+    <linearGradient id="homepod-mini-screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a1500"/><stop offset="0.55" stop-color="#ff7a00"/><stop offset="1" stop-color="#ffd39a"/>
+    </linearGradient>
+    <radialGradient id="homepod-mini-glow" cx="0.3" cy="0.75" r="0.6">
+      <stop offset="0" stop-color="#ffd39a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffd39a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="homepod-mini-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.05"/><stop offset="1" stop-color="#000" stop-opacity="0.12"/>
+    </linearGradient>
+    <filter id="homepod-mini-shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    
+    <linearGradient id="homepod-mini-metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f4f4f2"/><stop offset="0.5" stop-color="#e0e0dd"/><stop offset="1" stop-color="#c4c4c0"/>
+    </linearGradient>
+    <pattern id="homepod-mini-mesh" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3.2" fill="#9a9a97" fill-opacity="0.55"/>
+    </pattern>
+  </defs>
+    <ellipse cx="400" cy="790" rx="220" ry="26" fill="#000" fill-opacity="0.3" filter="url(#homepod-mini-shadow)"/>
+    <path d="M160 470 A240 240 0 1 0 640 470 A240 240 0 0 0 160 470 Z" fill="url(#homepod-mini-metal)"/>
+    <path d="M160 470 A240 240 0 1 0 640 470 A240 240 0 0 0 160 470 Z" fill="url(#homepod-mini-mesh)"/>
+    <ellipse cx="400" cy="270" rx="150" ry="48" fill="#1f2024"/>
+    <ellipse cx="400" cy="270" rx="118" ry="36" fill="url(#homepod-mini-screen)"/>
+    <ellipse cx="400" cy="270" rx="118" ry="36" fill="url(#homepod-mini-glow)"/>
+    <ellipse cx="400" cy="270" rx="150" ry="48" fill="url(#homepod-mini-shine)" opacity="0.45"/></svg>

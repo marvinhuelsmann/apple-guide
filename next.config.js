@@ -5,7 +5,10 @@ const nextConfig = {
     APIKEY: process.env.APIKEY,
     AUTHDOMAIN: process.env.AUTHDOMAIN,
     PROJECTID: process.env.PROJECTID,
-  }
-}
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

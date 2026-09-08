@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780" fill="none">
+  <defs>
+    <linearGradient id="macbook-pro-14-m5-screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a1500"/><stop offset="0.55" stop-color="#ff7a00"/><stop offset="1" stop-color="#ffd39a"/>
+    </linearGradient>
+    <radialGradient id="macbook-pro-14-m5-glow" cx="0.3" cy="0.75" r="0.6">
+      <stop offset="0" stop-color="#ffd39a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffd39a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="macbook-pro-14-m5-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.05"/><stop offset="1" stop-color="#000" stop-opacity="0.12"/>
+    </linearGradient>
+    <filter id="macbook-pro-14-m5-shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    
+    <linearGradient id="macbook-pro-14-m5-metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4a4d"/><stop offset="0.5" stop-color="#2b2b2e"/><stop offset="1" stop-color="#151517"/>
+    </linearGradient>
+  </defs>
+    <ellipse cx="600" cy="728" rx="475" ry="22" fill="#000" fill-opacity="0.28" filter="url(#macbook-pro-14-m5-shadow)"/>
+    <rect x="130" y="77.80000000000007" width="940" height="592.1999999999999" rx="31.959999999999997" fill="url(#macbook-pro-14-m5-metal)"/>
+    <rect x="140" y="87.80000000000007" width="920" height="572.1999999999999" rx="24.439999999999998" fill="#050506"/>
+    <rect x="154" y="101.80000000000007" width="892" height="544.1999999999999" rx="14" fill="url(#macbook-pro-14-m5-screen)"/>
+    <rect x="154" y="101.80000000000007" width="892" height="544.1999999999999" rx="14" fill="url(#macbook-pro-14-m5-glow)"/>
+    <path d="M554 87.80000000000007 h92 v20 a10 10 0 0 1 -10 10 h-72 a10 10 0 0 1 -10 -10 z" fill="#050506"/>
+    <rect x="85" y="668" width="1030" height="30" rx="12" fill="url(#macbook-pro-14-m5-metal)"/>
+    <rect x="85" y="668" width="1030" height="30" rx="12" fill="url(#macbook-pro-14-m5-shine)"/>
+    <rect x="530" y="668" width="140" height="7" rx="3.5" fill="#000" fill-opacity="0.35"/></svg>

@@ -1,98 +1,74 @@
-import db, {getProduct, updateProductViews} from "../../lib/clientApp";
-import {useCollection} from "react-firebase-hooks/firestore";
-import {useState} from "react";
+import Head from "next/head";
+import { useState } from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import db, { firebaseConfigured } from "../../lib/clientApp";
+import Ambient from "../../components/Ambient";
+import Nav from "../../components/Nav";
+
+const input = "glass-sm h-11 min-w-0 rounded-[14px] px-4 text-[15px] font-medium text-ink placeholder:text-ink-3 focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_oklab,var(--color-accent)_30%,transparent)]";
+const button = "pill h-11 shrink-0 bg-accent px-5 text-[15px] font-medium text-white transition hover:bg-accent-strong active:scale-[0.98]";
 
 export default function DashboardPanel() {
-    const [lastUpdate, setLastUpdate] = useState('')
+  const [lastUpdate, setLastUpdate] = useState("");
+  const [products] = useCollection(db ? db.collection("products").orderBy("name") : null);
 
-    const [products] = useCollection(
-        db.collection('products').orderBy('name'),
-        {}
-    );
+  const registerNewDevice = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    await db.collection("products").doc().set({ name: form.name.value, points: form.point.value });
+    form.reset();
+  };
 
-    const registerNewDevice = async (e) => {
-        e.preventDefault();
-        try {
-            db.collection('products').doc().set({
-                name: e.target.name.value,
-                points: e.target.point.value,
-            }).then(r => console.log(r))
+  const updateDevice = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setLastUpdate(form.id.value);
+    await db.collection("products").doc(form.id.value).update({ name: form.name.value, points: form.point.value });
+  };
 
-            e.target.name.value = ""
-            e.target.point.value = ""
-        } catch (error) {
-            console.log(error)
-        }
-    }
+  return (
+    <>
+      <Head>
+        <title>Dashboard – Apple Guide</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <Ambient />
+      <Nav />
+      <main className="mx-auto max-w-3xl px-4 pb-16 pt-32 sm:px-6">
+        <h1 className="headline text-[40px]">Punkte pflegen.</h1>
+        <p className="mt-3 text-[15px] text-ink-2">Einträge in Firestore überschreiben die Katalogpunkte, wenn der Name exakt übereinstimmt.</p>
 
-    const updateDevices = async (e) => {
-        e.preventDefault();
-        try {
-            setLastUpdate(e.target.id.value)
-            const product = await db.collection('products').doc(e.target.id.value)
-            await product.update({
-                name: e.target.name.value,
-                points: e.target.point.value,
-            })
-        } catch (error) {
-            console.log(error)
-            alert(error)
-        }
-    }
-    return (
-        <div>
-            <div>
-                <h2 className={"text-4xl font-bold p-3"}>
-                    Dashboard Panel
-                </h2>
-            </div>
-
-            <div>
-                <form className={"space-x-2 pl-4"} onSubmit={registerNewDevice}>
-                    <input
-                        className={"border border-slate-300 rounded-md p-2 font-bold ring-1 ring-black placeholder-black placeholder:text-slate-400"}
-                        id={"name"}
-                        placeholder={"Name"}/>
-                    <input
-                        className={"border border-slate-300 rounded-md p-2 font-bold ring-1 ring-black placeholder-black placeholder:text-slate-400"}
-                        id={"point"}
-                        placeholder={"Punkte"}/>
-                    <button type={"submit"} className={"font-bold uppercase"}>
-                        REGISTER
-                    </button>
+        {!firebaseConfigured ? (
+          <div className="glass-strong glass-specular mt-8 p-6 text-[15px] text-ink-2">
+            Firebase ist nicht konfiguriert. Setze <code className="rounded bg-ink/6 px-1.5 py-0.5 text-[13px] dark:bg-white/10">APIKEY</code>,{" "}
+            <code className="rounded bg-ink/6 px-1.5 py-0.5 text-[13px] dark:bg-white/10">AUTHDOMAIN</code> und{" "}
+            <code className="rounded bg-ink/6 px-1.5 py-0.5 text-[13px] dark:bg-white/10">PROJECTID</code> als Umgebungsvariablen, um Punkte zentral zu pflegen.
+          </div>
+        ) : (
+          <>
+            <form className="glass-strong glass-specular mt-8 flex flex-wrap gap-2 p-4" onSubmit={registerNewDevice}>
+              <input className={`${input} flex-1`} name="name" placeholder="Name, z. B. iPhone 17" required />
+              <input className={`${input} w-28`} name="point" placeholder="Punkte" inputMode="numeric" required />
+              <button type="submit" className={button}>
+                Anlegen
+              </button>
+            </form>
+            <div className="mt-6 space-y-3">
+              {products?.docs.map((product) => (
+                <form key={product.id} className="glass glass-specular flex flex-wrap items-center gap-2 p-3" onSubmit={updateDevice}>
+                  <input type="hidden" name="id" value={product.id} />
+                  <input className={`${input} flex-1`} name="name" defaultValue={String(product.data().name)} />
+                  <input className={`${input} w-28`} name="point" defaultValue={String(product.data().points)} inputMode="numeric" />
+                  <button type="submit" className={button}>
+                    Speichern
+                  </button>
+                  {lastUpdate === product.id && <span className="w-full px-2 text-[13px] font-medium text-good">Gespeichert.</span>}
                 </form>
+              ))}
             </div>
-
-            {products && products.docs.map((product) => (
-                <div key={product.id} className="group p-4 pt-5 relative">
-                    <h1 className={"text-xl"}>Produkt: <span className={"font-bold text-xl"}>{product.id}</span></h1>
-                    <div className={"pt-1 pb-5 text-2xl"}>
-                        <form className={"space-x-2"} onSubmit={updateDevices}>
-                            <input
-                                className={"border border-slate-300 rounded-md p-2 font-bold ring-1 ring-black placeholder-black placeholder:text-slate-400"}
-                                id={"id"}
-                                value={product.id}/>
-                            <input
-                                className={"border border-slate-300 rounded-md p-2 font-bold ring-1 ring-black placeholder-black placeholder:text-slate-400"}
-                                id={"name"}
-                                defaultValue={String(product.data()['name'])}/>
-                            <input
-                                className={"border border-slate-300 rounded-md p-2 font-bold ring-1 ring-black placeholder-black placeholder:text-slate-400"}
-                                id={"point"}
-                                defaultValue={String(product.data()['points'])}/>
-                            <button type={"submit"} className={"font-bold uppercase"}>
-                                UPDATE
-                            </button>
-                        </form>
-                        {lastUpdate === product.id &&
-                            <span className={"text-green-600/50 text-sm font-medium"}>
-                            Erfolgreiche Aktualisierung!
-                        </span>
-                        }
-                    </div>
-                </div>
-            ))}
-
-        </div>
-    )
+          </>
+        )}
+      </main>
+    </>
+  );
 }

@@ -1,0 +1,432 @@
+{
+  "apple-watch-se-2": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-se-3": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-series-10": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-series-11": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-series-7": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-series-8": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-series-9": {
+    "w": 560,
+    "h": 880,
+    "type": "webp"
+  },
+  "apple-watch-ultra-2": {
+    "w": 600,
+    "h": 960,
+    "type": "webp"
+  },
+  "apple-watch-ultra-3": {
+    "w": 600,
+    "h": 960,
+    "type": "webp"
+  },
+  "apple-watch-ultra": {
+    "w": 600,
+    "h": 960,
+    "type": "webp"
+  },
+  "ipad-10": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-a16": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-air-11-m2": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-air-11-m3": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-air-13-m3": {
+    "w": 1600,
+    "h": 1251,
+    "type": "webp"
+  },
+  "ipad-mini-a17-pro": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-pro-11-m4": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-pro-11-m5": {
+    "w": 1600,
+    "h": 1187,
+    "type": "webp"
+  },
+  "ipad-pro-12-9-m2": {
+    "w": 1600,
+    "h": 1251,
+    "type": "webp"
+  },
+  "ipad-pro-13-m4": {
+    "w": 1600,
+    "h": 1251,
+    "type": "webp"
+  },
+  "ipad-pro-13-m5": {
+    "w": 1600,
+    "h": 1251,
+    "type": "webp"
+  },
+  "iphone-11-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-11-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-11": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-12-mini": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-12-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-12-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-12": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-13-mini": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-13-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-13-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-13": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-14-plus": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-14-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-14-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-14": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-15-plus": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-15-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-15-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-15": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-16-plus": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-16-pro-max": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-16-pro": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-16": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-16e": {
+    "w": 795,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-17-pro-max": {
+    "w": 769,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-17-pro": {
+    "w": 769,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-17": {
+    "w": 783,
+    "h": 1600,
+    "type": "webp"
+  },
+  "iphone-air": {
+    "w": 767,
+    "h": 1600,
+    "type": "webp"
+  },
+  "macbook-pro-16-m4-max": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-16-m4-pro": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-14-m5": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-14-m4-pro": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-14-m4": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-14-m3-pro": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-pro-13-m2": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-15-m4": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-13-m4": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-15-m3": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-13-m3": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-13-m2": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "macbook-air-13-m1": {
+    "w": 1200,
+    "h": 780,
+    "type": "svg"
+  },
+  "mac-mini-m4-pro": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-mini-m4": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-mini-m2": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-mini-m1": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-studio-m3-ultra": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-studio-m4-max": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "mac-studio-m2-max": {
+    "w": 1200,
+    "h": 760,
+    "type": "svg"
+  },
+  "airpods-pro-3": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "airpods-pro-2": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "airpods-4-anc": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "airpods-4": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "airpods-max-usb-c": {
+    "w": 1000,
+    "h": 900,
+    "type": "svg"
+  },
+  "airpods-3": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "airpods-2": {
+    "w": 1000,
+    "h": 800,
+    "type": "svg"
+  },
+  "homepod-2": {
+    "w": 800,
+    "h": 900,
+    "type": "svg"
+  },
+  "homepod-mini": {
+    "w": 800,
+    "h": 900,
+    "type": "svg"
+  },
+  "homepod-1": {
+    "w": 800,
+    "h": 900,
+    "type": "svg"
+  },
+  "apple-tv-4k-3": {
+    "w": 1000,
+    "h": 700,
+    "type": "svg"
+  },
+  "apple-tv-4k-2": {
+    "w": 1000,
+    "h": 700,
+    "type": "svg"
+  },
+  "apple-tv-4k-1": {
+    "w": 1000,
+    "h": 700,
+    "type": "svg"
+  },
+  "apple-tv-hd": {
+    "w": 1000,
+    "h": 700,
+    "type": "svg"
+  },
+  "imac-24-m1": {
+    "w": 1600,
+    "h": 1361,
+    "type": "webp"
+  },
+  "imac-24-m3": {
+    "w": 1600,
+    "h": 1361,
+    "type": "webp"
+  },
+  "imac-24-m4": {
+    "w": 1600,
+    "h": 1361,
+    "type": "webp"
+  }
+}

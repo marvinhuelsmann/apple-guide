@@ -1,100 +1,66 @@
-import Footer from "../components/view/Footer";
-import { Disclosure } from '@headlessui/react'
-import { ChevronUpIcon } from '@heroicons/react/20/solid'
-import Link from "next/link";
+import Head from "next/head";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import Ambient from "../components/Ambient";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
+import TipCard from "../components/TipCard";
 
-function GuideDisclosure() {
-    return (
-        <div className="w-full px-4 pt-9">
-            <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-1">
-                <Disclosure>
-                    {({ open }) => (
-                        <>
-                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-blue-100 px-4 py-2 text-left text-xl font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
-                                <span>Was kann ich hier machen?</span>
-                                <ChevronUpIcon
-                                    className={`${
-                                        open ? 'rotate-180 transform' : ''
-                                    } h-5 w-5 text-blue-500`}
-                                />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                Diese Applikation hilft, dabei einen allgemeinen Überblick über neue Apple Geräte zu
-                                behalten
-                                und hilft Ihnen dabei ein besseres Gerät zu finden und die richtige Entscheidung zu treffen,
-                                wenn sie dies fordern.
-                            </Disclosure.Panel>
-                        </>
-                    )}
-                </Disclosure>
-                <Disclosure as="div" className="mt-2">
-                    {({ open }) => (
-                        <>
-                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-blue-100 px-4 py-2 text-left text-xl font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
-                                <span>  Ist AppleGuide von Apple?</span>
-                                <ChevronUpIcon
-                                    className={`${
-                                        open ? 'rotate-180 transform' : ''
-                                    } h-5 w-5 text-blue-500`}
-                                />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                AppleGuide steht in keinen zusammenhang mit Apple, daher ist diese Beratung nur von der Community und
-                                nicht von Apple selbst.
-                            </Disclosure.Panel>
-                        </>
-                    )}
-                </Disclosure>
-                <Disclosure as="div" className="mt-2">
-                    {({ open }) => (
-                        <>
-                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-blue-100 px-4 py-2 text-left text-xl font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
-                                <span>Sind die Angaben spezifisch und genau?</span>
-                                <ChevronUpIcon
-                                    className={`${
-                                        open ? 'rotate-180 transform' : ''
-                                    } h-5 w-5 text-blue-500`}
-                                />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                Die Angaben werden aus Testberichten und aus verschiedenen Communitys gezogen, daher können die Angaben je nach Gerätezustand stark abweichen
-                            </Disclosure.Panel>
-                        </>
-                    )}
-                </Disclosure>
-            </div>
-        </div>
-    )
-}
+const FAQ = [
+  {
+    q: "Was kann ich hier machen?",
+    a: "Apple Guide vergleicht zwei Apple‑Geräte derselben Kategorie: dein aktuelles und das, über das du nachdenkst. Du bekommst eine Einschätzung, ob sich der Wechsel lohnt, und eine Tabelle mit allen Unterschieden.",
+  },
+  {
+    q: "Wie entstehen die Punkte?",
+    a: "Die Punkte von 0 bis 100 sind eine redaktionelle Gesamtbewertung innerhalb einer Kategorie. Sie gewichten Leistung, Display, Kamera, Laufzeit und Ausstattung im Verhältnis zum aktuellen Topmodell. Sie sind keine Angabe von Apple und keine Messung.",
+  },
+  {
+    q: "Ist Apple Guide von Apple?",
+    a: "Nein. Apple Guide ist ein unabhängiges Projekt und steht in keiner Verbindung zu Apple Inc. Alle Marken gehören ihren jeweiligen Eigentümern.",
+  },
+  {
+    q: "Sind die Angaben genau?",
+    a: "Die technischen Daten stammen aus den offiziellen Datenblättern, Preise sind deutsche Einführungspreise der kleinsten Konfiguration. Ältere Modelle werden mit dem nächstähnlichen Geräterahmen dargestellt, Details wie Tasten oder Kameraanordnung können abweichen.",
+  },
+  {
+    q: "Kann ich einen Vergleich teilen?",
+    a: "Ja. Die Adresse in der Browserzeile enthält deine Auswahl. Kopiere sie einfach und schicke sie weiter.",
+  },
+];
 
 export default function Guideline() {
-    return (
-        <div>
-            <div className={"xl:mt-48 flex justify-center mt-40"}>
-                <div
-                    className="absolute inset-0 z-[-9999] bg-gradient-to-tr from-bg-blue/10 via-bg-blue-300/40 to-bg-blue-300/50"
-                >
-                    <div
-                        className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-blue-300/70 to-transparent"
-                    ></div>
-                </div>
-                <div className="relative max-w-sm hidden ml:block xl:block">
-                    <div
-                        className="-translate-x-1/2vite absolute -top-70 left-1/4 h-24 w-40 rounded-full bg-blue-300 blur-3xl"
-                    ></div>
-                    <div
-                        className="absolute left-1/2 h-32 w-62 -translate-x-1/4 rounded-full bg-blue-200/40 blur-3xl"
-                    ></div>
-                </div>
-                <div>
-                    <div className={"xl:mb-20 mb-5 flex justify-center w-full"}>
-                        <h1 className={"text-8xl -mt-24 font-bold text-blue-900/70 text-shadow text-center"}>
-                            <Link href={"../"}>Apple Guide</Link>
-                        </h1>
-                    </div>
-                    <GuideDisclosure/>
-                </div>
-            </div>
+  return (
+    <>
+      <Head>
+        <title>Hinweise & FAQ – Apple Guide</title>
+        <meta name="description" content="Wie Apple Guide funktioniert, woher die Daten kommen und was die Punkte bedeuten." />
+      </Head>
+      <Ambient />
+      <Nav />
+      <main className="mx-auto max-w-3xl px-4 pb-16 pt-32 sm:px-6 sm:pt-36">
+        <h1 className="headline text-[clamp(36px,6vw,64px)]">Hinweise & FAQ.</h1>
+        <p className="mt-4 max-w-[60ch] text-[17px] leading-relaxed text-ink-2">Kurz erklärt, wie Apple Guide arbeitet und was du von den Angaben erwarten kannst.</p>
+
+        <div className="glass-strong glass-specular mt-10 divide-y divide-line overflow-hidden">
+          {FAQ.map((item) => (
+            <Disclosure key={item.q} as="div">
+              <DisclosureButton className="group flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-[17px] font-semibold tracking-tight transition hover:bg-ink/3 dark:hover:bg-white/5">
+                {item.q}
+                <ChevronDownIcon className="h-5 w-5 shrink-0 text-ink-3 transition-transform duration-300 ease-[var(--ease-apple)] group-data-open:rotate-180" />
+              </DisclosureButton>
+              <DisclosurePanel transition className="origin-top px-6 pb-6 text-[15px] leading-relaxed text-ink-2 transition duration-200 ease-out data-closed:-translate-y-1 data-closed:opacity-0">
+                {item.a}
+              </DisclosurePanel>
+            </Disclosure>
+          ))}
         </div>
-    )
+
+        <div className="mt-16">
+          <TipCard />
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }
